@@ -1,4 +1,3 @@
-from typing import ValuesView
 import psycopg2
 from psycopg2 import connect, sql, extensions
 import sys
@@ -87,7 +86,6 @@ class Fonksiyonlar:
         for koltuk in koltuklar:
             tablo.add_row(koltuk)
         print(tablo)
-    
 class Musteriler:
     def MusteriEkle():
         musteriAd = input("Müşteri adını giriniz: ")
@@ -227,10 +225,8 @@ class Calisanlar:
 
         print("Silmek istediğiniz çalışanın ID'sini giriniz.")
         silSecim = input("Lütfen ID giriniz: ")
-        query_Calisanlar_delete = """
-        DELETE FROM Calisanlar WHERE personelid=%s
-        """
-        cursor.execute(query_Calisanlar_delete,silSecim)
+        query_Calisanlar_delete = "DELETE FROM Calisanlar WHERE personelid={0}".format(silSecim)
+        cursor.execute(query_Calisanlar_delete)
 
         count = cursor.rowcount
         print(f"\n{count} kayıt başarıyla silinmiştir.")
@@ -241,7 +237,6 @@ class Calisanlar:
         cursor.execute(sql)
         calisanSayisi = cursor.fetchone()
         print("\nTOPLAM ÇALIŞAN SAYISI: ", calisanSayisi[0])
-
 class Otobusler:
     def OtobusEkle():
         plaka = input("Otobüs plakasını giriniz (34GGH445 gibi): ")
@@ -314,7 +309,6 @@ class Otobusler:
         cursor.execute(query_Otobus_delete,(silSecim,silSecim,silSecim))
 
         print("Seçilen otobüs başarıyla silinmiştir.")
-
 class Biletler:
     def biletEkle():
         Musteriler.MusteriGoruntule()
@@ -402,7 +396,6 @@ class Biletler:
         biletSayisi = cursor.fetchone()
         print("\nTOPLAM BİLET SAYISI: ", biletSayisi[0])
 
-
 def anaMenu():
     print("#########################################")
     print("Otobüs Firması Admin Paneline Hoşgeldiniz.\n")
@@ -411,7 +404,6 @@ def anaMenu():
     print("[3]Otobüs Menüsü")
     print("[4]Şube Menüsü")
     print("[5]Çıkış\n")
-
 def musteriMenu():
     print("\n------------Müşteri Menüsü------------")
     print("[1]Müşterileri Göster")
@@ -441,7 +433,6 @@ def musteriMenu():
     else:
         print("Yanlış girdi.")
         musteriMenu()
-
 def biletMenu():
     print("\n------------Bilet Menüsü------------")
     print("[1]Biletleri Göster")
@@ -479,7 +470,6 @@ def biletMenu():
     else:
         print("Yanlış girdi.")
         biletMenu()
-
 def otobusMenu():
     print("\n------------Otobüs Menüsü------------")
     print("[1]Otobüsleri Göster")
@@ -504,8 +494,7 @@ def otobusMenu():
         return
     else:
         print("Yanlış girdi.")
-        otobusMenu()
-        
+        otobusMenu()      
 def subeMenu():
     print("\n------------Şube Menüsü------------")
     print("[1]Çalışanları Göster")
@@ -536,10 +525,7 @@ def subeMenu():
     else:
         print("Yanlış girdi.")
         subeMenu()
-
-def create():
-    pass
-        
+    
 def main():
     while True:
         anaMenu()
